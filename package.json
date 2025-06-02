@@ -1,0 +1,29 @@
+{
+  "name": "naitive-hello-world",
+  "version": "1.0.0",
+  "description": "NAItive Hello World Cloudflare Worker for Google Workspace authentication testing",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "publish": "wrangler deploy",
+    "test": "echo \"Visit https://test.naitive.io after deployment\" && exit 0"
+  },
+  "keywords": [
+    "cloudflare",
+    "worker",
+    "naitive",
+    "hello-world",
+    "google-workspace",
+    "authentication"
+  ],
+  "author": "NAItive",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^4.18.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikec-naitive/nAItive_Cloudflare_MCP.git"
+  }
+} 
