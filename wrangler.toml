@@ -3,13 +3,18 @@ main = "src/index.js"
 compatibility_date = "2023-12-01"
 compatibility_flags = ["nodejs_compat"]
 
-# Custom domain will be configured via the Cloudflare dashboard after deployment
-# For now, we'll deploy to the workers.dev subdomain first
+# Custom Domain Configuration
+routes = [
+  { pattern = "test.naitive.io", custom_domain = true }
+]
+
+# Disable workers.dev in production
+workers_dev = false
 
 # Environment variables (can be set via dashboard or wrangler secrets)
 [vars]
 ENVIRONMENT = "production"
-APP_NAME = "NAItive Hello World"
+APP_NAME = "NAItive AI Workspace Hub"
 
 # Optional: KV namespace for session storage (for future auth implementation)
 # [[kv_namespaces]]
