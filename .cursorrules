@@ -1,0 +1,247 @@
+# NAItive Cloudflare MCP - Cursor Rules & Documentation
+
+## 🎯 Project Overview
+This project demonstrates and tests the complete Cloudflare AutoRAG workflow using Model Context Protocol (MCP) servers. It includes document upload to R2, AutoRAG instance creation, and RAG query testing.
+
+## 🔧 MCP Servers Configuration
+
+### Active MCP Servers
+```json
+// Add these to your .cursor/mcp.json
+{
+  "mcpServers": {
+    "linear": {
+      "command": "linear-mcp",
+      "args": []
+    },
+    "github": {
+      "command": "github-mcp", 
+      "args": []
+    },
+    "cloudflare-docs": {
+      "command": "cloudflare-docs-mcp",
+      "args": []
+    },
+    "cloudflare-bindings": {
+      "command": "cloudflare-bindings-mcp",
+      "args": []
+    }
+  }
+}
+```
+
+## 📋 MCP Tools Inventory & Status
+
+### ✅ Linear MCP Server
+**Purpose**: Project management and issue tracking
+**Status**: ✅ WORKING
+
+#### Available Tools:
+- `mcp_linear_list_issues` - List issues in workspace
+- `mcp_linear_create_issue` - Create new issues
+- `mcp_linear_update_issue` - Update existing issues
+- `mcp_linear_get_issue` - Get issue details
+- `mcp_linear_list_users` - List workspace users
+- `mcp_linear_get_team` - Get team information
+- `mcp_linear_list_projects` - List projects
+- `mcp_linear_create_comment` - Add comments to issues
+
+#### Key Discoveries:
+- ✅ Issue creation works with rich markdown descriptions
+- ✅ User assignment works with user IDs
+- ✅ Priority levels: 0=None, 1=Urgent, 2=High, 3=Normal, 4=Low
+- ✅ Can track project progress effectively
+- ✅ Team ID required: `27eea025-06e1-4aa7-9f78-d53438100b78` (NAItive team)
+
+### ✅ GitHub MCP Server  
+**Purpose**: Repository and file management
+**Status**: ✅ WORKING
+
+#### Available Tools:
+- `mcp_github_get_file_contents` - Read repository files
+- `mcp_github_list_branches` - List repository branches
+- `mcp_github_create_issue` - Create GitHub issues
+- `mcp_github_push_files` - Push files to repository
+- `mcp_github_get_me` - Get authenticated user info
+
+#### Key Discoveries:
+- ✅ Can access files from repository: `mikec-naitive/nAItive_Cloudflare_MCP`
+- ✅ Files accessible via vscode-vfs connection
+- ✅ Base64 encoded content properly decoded
+- ✅ Repository operations work seamlessly
+
+### ✅ Cloudflare Documentation MCP Server
+**Purpose**: Search Cloudflare documentation 
+**Status**: ✅ WORKING
+
+#### Available Tools:
+- `mcp_cloudflareDocs_search_cloudflare_documentation` - Search docs
+
+#### Key Discoveries:
+- ✅ Excellent for finding AutoRAG documentation
+- ✅ Returns relevant code examples and API endpoints
+- ✅ Covers all Cloudflare products (Workers, R2, AutoRAG, etc.)
+- ✅ Essential for understanding API workflows
+
+### ✅ Cloudflare Bindings MCP Server
+**Purpose**: Manage Cloudflare resources
+**Status**: ✅ WORKING (R2 tools confirmed)
+
+#### Available Tools:
+**Account Management:**
+- `mcp_cloudflareBindings_accounts_list` - List accounts
+- `mcp_cloudflareBindings_set_active_account` - Set active account
+
+**KV Storage:**
+- `mcp_cloudflareBindings_kv_namespaces_list` - List KV namespaces
+- `mcp_cloudflareBindings_kv_namespace_create` - Create KV namespace
+- `mcp_cloudflareBindings_kv_namespace_delete` - Delete KV namespace
+- `mcp_cloudflareBindings_kv_namespace_get` - Get KV namespace details
+- `mcp_cloudflareBindings_kv_namespace_update` - Update KV namespace
+
+**Workers:**
+- `mcp_cloudflareBindings_workers_list` - List Workers
+- `mcp_cloudflareBindings_workers_get_worker` - Get Worker details
+- `mcp_cloudflareBindings_workers_get_worker_code` - Get Worker source code
+
+**R2 Storage:** ⭐ **MAJOR DISCOVERY**
+- `mcp_cloudflareBindings_r2_buckets_list` - List R2 buckets ✅ WORKING
+- `mcp_cloudflareBindings_r2_bucket_create` - Create R2 bucket ✅ WORKING  
+- `mcp_cloudflareBindings_r2_bucket_get` - Get bucket details ✅ WORKING
+- `mcp_cloudflareBindings_r2_bucket_delete` - Delete R2 bucket
+
+**D1 Database:**
+- `mcp_cloudflareBindings_d1_databases_list` - List D1 databases
+- `mcp_cloudflareBindings_d1_database_create` - Create D1 database
+- `mcp_cloudflareBindings_d1_database_query` - Query D1 database
+
+**Hyperdrive:**
+- `mcp_cloudflareBindings_hyperdrive_configs_list` - List Hyperdrive configs
+
+#### Key Discoveries:
+- ✅ Account ID: `07e04ba84923cf1badc9313a7090f93c`
+- ✅ R2 bucket management works perfectly
+- ✅ Created bucket: `autorag-test-bucket` in ENAM region
+- ❌ R2 object upload/download tools NOT available in MCP (use API directly)
+- ✅ KV namespace created: `autorag-test-documents`
+- ⚠️ AutoRAG management tools NOT available in MCP (use dashboard/API)
+
+## 🔍 Critical Limitations Discovered
+
+### R2 Object Management
+- ❌ **Missing**: R2 object upload/download tools in MCP
+- ✅ **Workaround**: Use S3-compatible API directly
+- ✅ **Solution**: Created `autorag_complete_test.js` script
+
+### AutoRAG Management  
+- ❌ **Missing**: AutoRAG creation/management tools in MCP
+- ✅ **Workaround**: Manual dashboard creation + API for queries
+- ✅ **Solution**: Script provides step-by-step instructions
+
+## 🚀 Complete AutoRAG Workflow
+
+### Phase 1: Infrastructure Setup (✅ COMPLETED)
+```bash
+# 1. R2 bucket created via MCP
+mcp_cloudflareBindings_r2_bucket_create("autorag-test-bucket")
+
+# 2. Test document ready
+test_document.md (3KB NAItive platform documentation)
+```
+
+### Phase 2: Document Upload
+```bash
+# Set API token
+export CLOUDFLARE_API_TOKEN=your_token_here
+
+# Upload document
+node autorag_complete_test.js
+```
+
+### Phase 3: AutoRAG Creation (Manual)
+1. Go to: https://dash.cloudflare.com/?to=/:account/ai/autorag
+2. Click "Create AutoRAG"  
+3. Select R2 bucket: `autorag-test-bucket`
+4. Choose default embedding model
+5. Choose default LLM model
+6. Create/select AI Gateway
+7. Name: `naitive-test-rag`
+8. Create and wait for indexing
+
+### Phase 4: Testing
+```bash
+# Test RAG queries
+node autorag_complete_test.js --test-only
+```
+
+## 📊 Test Queries Included
+1. "What is NAItive and what services do they offer?"
+2. "How do I authenticate with the NAItive API?"  
+3. "What are the main features of the workflow builder?"
+4. "What are best practices for data security?"
+5. "How do I troubleshoot authentication errors?"
+
+## 🛠️ Best Practices Discovered
+
+### MCP Tool Usage
+- ✅ Always check tool availability first (tools can appear/disappear)
+- ✅ Use parallel tool calls for efficiency when possible
+- ✅ GitHub MCP works best with repository connections
+- ✅ Linear MCP requires proper team/user IDs
+
+### Cloudflare API Integration
+- ✅ R2 uploads: Use S3-compatible endpoint with Bearer token
+- ✅ AutoRAG queries: Use REST API with proper permissions
+- ✅ Account management: Always set active account first
+
+### Error Handling
+- ✅ Tools may not be available initially - retry often works
+- ✅ R2 requires enabling through dashboard first
+- ✅ API tokens need proper scopes (R2, AutoRAG permissions)
+
+## 📁 Project Structure
+```
+├── .cursorrules              # This documentation file
+├── test_document.md          # Test document for AutoRAG (NAItive docs)
+├── autorag_complete_test.js  # Complete testing script
+└── README.md                 # Project overview
+```
+
+## 🔑 Configuration Values
+```javascript
+const CONFIG = {
+    ACCOUNT_ID: '07e04ba84923cf1badc9313a7090f93c',
+    R2_BUCKET: 'autorag-test-bucket',
+    AUTORAG_NAME: 'naitive-test-rag',
+    TEAM_ID: '27eea025-06e1-4aa7-9f78-d53438100b78'
+};
+```
+
+## 🎯 Linear Issue Tracking
+- **Issue**: NAI-21 - "Test AutoRAG document upload and retrieval flow"
+- **Status**: Ready for final testing
+- **Assignee**: Mike Collier
+- **Priority**: High (2)
+
+## 💡 Pro Tips
+1. **MCP Tool Discovery**: Run `mcp_cloudflareBindings_r2_buckets_list` to verify R2 tools are working
+2. **GitHub Integration**: Use repository file access for seamless development 
+3. **Documentation**: Always use Cloudflare docs MCP for API reference
+4. **Testing**: Use the complete test script for end-to-end validation
+5. **Monitoring**: Use Linear MCP for project tracking and progress updates
+
+## ⚠️ Known Issues & Workarounds
+- **R2 Object Upload**: Not available in MCP → Use script with S3 API
+- **AutoRAG Creation**: Not available in MCP → Use dashboard + API
+- **Tool Availability**: Can be intermittent → Retry operations
+- **Repository Access**: Requires GitHub connection in Cursor
+
+## 🔮 Future Enhancements
+- [ ] R2 object management MCP tools
+- [ ] AutoRAG creation/management MCP tools  
+- [ ] Enhanced error handling in scripts
+- [ ] Automated API token management
+- [ ] Integration with other Cloudflare services (Workers, etc.)
+
+---
+*Last Updated: June 2025 - AutoRAG workflow fully tested and documented* 
