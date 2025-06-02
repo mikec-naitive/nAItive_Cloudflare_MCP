@@ -1,37 +1,24 @@
 {
   "mcpServers": {
-    "cloudflare-docs": {
-      "command": "mcp-remote",
-      "args": ["--url", "https://docs.mcp.cloudflare.com/sse"],
-      "env": {}
+    "cloudflareDocs": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://docs.mcp.cloudflare.com/sse"]
     },
-    "cloudflare-bindings": {
-      "command": "mcp-remote", 
-      "args": ["--url", "https://bindings.mcp.cloudflare.com/sse"],
-      "env": {
-        "CLOUDFLARE_API_TOKEN": ""
-      }
+    "cloudflareBindings": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://bindings.mcp.cloudflare.com/sse"]
     },
-    "cloudflare-observability": {
-      "command": "mcp-remote",
-      "args": ["--url", "https://observability.mcp.cloudflare.com/sse"], 
-      "env": {
-        "CLOUDFLARE_API_TOKEN": ""
-      }
+    "cloudflareObservability": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://observability.mcp.cloudflare.com/sse"]
     },
-    "cloudflare-container": {
-      "command": "mcp-remote",
-      "args": ["--url", "https://container.mcp.cloudflare.com/sse"],
-      "env": {
-        "CLOUDFLARE_API_TOKEN": ""
-      }
+    "cloudflareContainer": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://container.mcp.cloudflare.com/sse"]
     },
-    "cloudflare-autorag": {
-      "command": "mcp-remote", 
-      "args": ["--url", "https://autorag.mcp.cloudflare.com/sse"],
-      "env": {
-        "CLOUDFLARE_API_TOKEN": ""
-      }
+    "cloudflareAutorag": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://autorag.mcp.cloudflare.com/sse"]
     }
   }
 }
