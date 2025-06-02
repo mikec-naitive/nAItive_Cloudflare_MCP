@@ -1,0 +1,18 @@
+name = "naitive-hello-world"
+main = "src/index.js"
+compatibility_date = "2023-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Custom domain will be configured via the Cloudflare dashboard after deployment
+# For now, we'll deploy to the workers.dev subdomain first
+
+# Environment variables (can be set via dashboard or wrangler secrets)
+[vars]
+ENVIRONMENT = "production"
+APP_NAME = "NAItive Hello World"
+
+# Optional: KV namespace for session storage (for future auth implementation)
+# [[kv_namespaces]]
+# binding = "SESSIONS"
+# id = "your-kv-namespace-id"
+# preview_id = "your-preview-kv-namespace-id" 
